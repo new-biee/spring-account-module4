@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>g
+<body>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
@@ -35,8 +35,8 @@
                         <td th:text="${user.firstName}"></td>
                         <td th:text="${user.lastName}"></td>
                         <td th:text="${user.age}"></td>
-                        <td><a th:href="@{/edit-user/__${user.id}__ }">Edit</a></td>
-                        <td><a th:href="@{/delete-user/__${user.id}__ }">Delete</a></td>
+                        <td><a th:href="@{/user-edit/__${user.id}__ }">Edit</a></td>
+                        <td><a th:href="@{/user-delete/__${user.id}__ }">Delete</a></td>
                     </tr>
                 </th:block>
             </table>

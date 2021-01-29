@@ -28,7 +28,7 @@ public class UserController {
         if (page.isPresent() && page.get() > 1) {
             pageNum = page.get() - 1;
         }
-        PageRequest pageSplitter = new PageRequest(pageNum, 3, new Sort("firstName"));
+        PageRequest pageSplitter = new PageRequest(pageNum, 3, new Sort("id"));
         if (keyword.isPresent()) {
             users = userService.findAllByFirstNameContaining(keyword.get(), pageSplitter);
             modelAndView.addObject("keyword", keyword.get());
@@ -51,6 +51,28 @@ public class UserController {
         }
         userService.save(user);
         redirectAttributes.addFlashAttribute("message", "Added");
+        return new ModelAndView("redirect:/users");
+    }
+
+    @GetMapping("user-edit/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id) {
+        User user = userService.findById(id);
+        if (user != null) {
+            ModelAndView modelAndView = new ModelAndView("/user/edit");
+            modelAndView.addObject("user", user);
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("error.404");
+            return modelAndView;
+        }
+    }
+
+    @PostMapping("user-edit")
+    public ModelAndView updateUser(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
+        userService.save(user);
+        ModelAndView modelAndView = new ModelAndView();
+        redirectAttributes.addFlashAttribute("message", "User Updated Successfully");
+        modelAndView.addObject("users", userService.findAll());
         return new ModelAndView("redirect:/users");
     }
 }
