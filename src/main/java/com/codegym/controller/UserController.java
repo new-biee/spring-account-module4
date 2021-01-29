@@ -53,4 +53,33 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", "Added");
         return new ModelAndView("redirect:/users");
     }
+
+    @GetMapping("user-edit/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id) {
+        User user = userService.findById(id);
+        if (user != null) {
+            ModelAndView modelAndView = new ModelAndView("/user/edit");
+            modelAndView.addObject("user", user);
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("error.404");
+            return modelAndView;
+        }
+    }
+
+    @PostMapping("user-edit")
+    public ModelAndView updateUser(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
+        userService.save(user);
+        ModelAndView modelAndView = new ModelAndView();
+        redirectAttributes.addFlashAttribute("message", "User Updated Successfully");
+        modelAndView.addObject("users", userService.findAll());
+        return new ModelAndView("redirect:/users");
+    }
+
+    @PostMapping("/remove-user")
+    public ModelAndView remove(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        userService.remove(id);
+        redirectAttributes.addFlashAttribute("message", "Removed");
+        return new ModelAndView("redirect:/users");
+    }
 }

@@ -27,7 +27,7 @@ public class User{
     @Min(18)
     private int age;
 
-    @Pattern(regexp =  "^$|[0-9]*$")
+    @Pattern(regexp =  "^$|[0-9]*$", message = "Enter number (016..., 09..., 03...,")
     private String numberPhone;
 
     @Email(message = "Please input form email")

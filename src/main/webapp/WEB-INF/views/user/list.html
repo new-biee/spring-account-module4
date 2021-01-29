@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>g
+<body>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
@@ -36,7 +36,12 @@
                         <td th:text="${user.lastName}"></td>
                         <td th:text="${user.age}"></td>
                         <td><a th:href="@{/edit-user/__${user.id}__ }">Edit</a></td>
-                        <td><a th:href="@{/delete-user/__${user.id}__ }">Delete</a></td>
+                        <td>
+                            <form th:action="@{/remove-user}" method="post">
+                                <input type="submit" value="Remove"/>
+                                <input type="hidden" name="id" th:value="${user.id}" />
+                            </form>
+                        </td>
                     </tr>
                 </th:block>
             </table>
