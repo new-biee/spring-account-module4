@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>g
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<h1>Users</h1>
+<form>
+    Search by first name:
+    <input name="s" type="text" th:value="${keyword}"/>
+    <input type="submit" value="Search"/>
+</form>
+<a class="btn btn-primary" th:href="@{/user-create}">Create user</a>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <table border="1">
+                <tr>
+                    <th>#</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Age</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                <th:block th:each="user : ${users}">
+                    <tr>
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.age}"></td>
+                        <td><a th:href="@{/edit-user/__${user.id}__ }">Edit</a></td>
+                        <td><a th:href="@{/delete-user/__${user.id}__ }">Delete</a></td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+<div class="text-center">
+    <a th:href="@{'/users'(s=${keyword}, page=${users.number})}" th:if="${users.hasPrevious()}">Previous</a>
+    <span th:text="${users.number + 1}"></span>/<span th:text="${users.totalPages}"></span>
+    <a th:href="@{'/users'(s=${keyword}, page=${users.number + 2})}" th:if="${users.hasNext()}">Next</a>
+</div>
+</body>
+</html>
