@@ -53,4 +53,11 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", "Added");
         return new ModelAndView("redirect:/users");
     }
+
+    @PostMapping("/remove-user")
+    public ModelAndView remove(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        userService.remove(id);
+        redirectAttributes.addFlashAttribute("message", "Removed");
+        return new ModelAndView("redirect:/users");
+    }
 }
